@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BR Elevators - Single Page Concept</title>
+    <style>
+        /* --- BRANDING VARIABLES --- */
+        :root {
+            --brand-red: #B81D24; /* Exact match to the BR Logo 'R' */
+            --pure-white: #FFFFFF;
+            --light-gray: #F5F5F7;
+            --mid-gray: #E5E5EA;
+            --text-dark: #1C1C1E;
+            --text-muted: #636366;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            scroll-behavior: smooth; /* Smooth scrolling when clicking menu items */
+        }
+
+        body {
+            background-color: var(--pure-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* --- STICKY NAVIGATION BAR --- */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--mid-gray);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo-area {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-main {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--brand-red);
+            letter-spacing: 1px;
+        }
+
+        .logo-subtext {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-red);
+        }
+
+        /* --- THE DROPDOWN MOTION ENGINE --- */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--light-gray);
+            border: 1px solid var(--mid-gray);
+            border-radius: 8px;
+            list-style: none;
+            width: 220px;
+            padding: 10px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(5px);
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: var(--mid-gray);
+            color: var(--brand-red);
+        }
+
+        /* --- UTILITY STRUCTURES --- */
+        section {
+            padding: 90px 20px;
+        }
+
+        .section-gray {
+            background-color: var(--light-gray);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 45px;
+            text-align: center;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--brand-red);
+            margin: 12px auto 0;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        /* --- HERO BANNER --- */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            color: var(--brand-red);
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 19px;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            max-width: 600px;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-red);
+            color: var(--pure-white);
+            padding: 14px 32px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            border: 2px solid var(--brand-red);
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--brand-red);
+            color: var(--brand-red);
+            padding: 14px 32px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(184, 29, 36, 0.05);
+        }
+
+        /* --- PORTFOLIO & VALUE CARDS --- */
+        .card {
+            background-color: var(--pure-white);
+            border: 1px solid var(--mid-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .card-placeholder {
+            background-color: var(--light-gray);
+            height: 200px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        /* --- SINGLE PAGE INTEGRATED FORMS --- */
+        .form-box {
+            background: var(--pure-white);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--mid-gray);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--mid-gray);
+            border-radius: 6px;
+            background: var(--light-gray);
+            font-size: 14px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--brand-red);
+            background: var(--pure-white);
+        }
+
+        /* --- FOOTER CONTACT DETAILS --- */
+        footer {
+            background-color: #111;
+            color: #aaa;
+            padding: 60px 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--pure-white);
+            margin-bottom: 20px;
+        }
+
+        .footer-col p {
+            font-size: 14px;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo-area">
+                <img src="./logo.jpeg" alt="BR elevator logo" style="width:72px;height:auto;border-radius:6px;object-fit:contain;">
+                <div>
+                    <span class="logo-main">BR ELEVATORS</span>
+                    <span class="logo-subtext">A Unit of BG Elevators</span>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li class="dropdown">
+                        <a href="#elevators">Our Elevators ▾</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#elevators">1. Residential / Home</a></li>
+                            <li><a href="#elevators">2. Commercial</a></li>
+                            <li><a href="#elevators">3. Industrial</a></li>
+                            <li><a href="#elevators">4. Customization Cabin</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#amc-safety">AMC & Safety</a></li>
+                    <li><a href="#installations">Installations</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="#quote" style="color: var(--brand-red); font-weight: 700;">Get a Quote</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="grid-2">
+            <div class="hero-text">
+                <h1>30 Years of Vertical Engineering Excellence</h1>
+                <p>Reliable, safe, and distinctively customized elevator architectures backed by the generational legacy of BG Elevators.</p>
+                <div class="btn-group">
+                    <a href="#quote" class="btn-primary">Get a Quote</a>
+                    <a href="#careers" class="btn-secondary">Join Our Team</a>
+                </div>
+            </div>
+            <div style="background-color: var(--light-gray); height: 400px; border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--mid-gray);">
+                <span style="color: var(--text-muted)">[ Main Banner Elevator Image Placement ]</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-gray" id="about">
+        <div class="section-container">
+            <h2 class="section-title">About Our Legacy</h2>
+            <div class="grid-2">
+                <div>
+                    <h3 style="color: var(--brand-red); margin-bottom: 15px;">The Story of BR & BG Elevators</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">BR Elevators carries forward a formidable 30-year operational history established by BG Elevators. Engineered to fulfill the highest standards of architectural efficiency, our solutions combine safety and elegance seamlessly.</p>
+                    <p style="color: var(--text-muted);">Our historical records claim a strict zero-accident deployment across thousands of heavy commercial, residential, and private custom elevator networks.</p>
+                </div>
+                <div style="background: var(--pure-white); padding: 35px; border-radius: 10px; border: 1px solid var(--mid-gray); display: flex; justify-content: space-around; text-align: center;">
+                    <div>
+                        <h2 style="color: var(--brand-red); font-size: 36px;">30+</h2>
+                        <p style="font-weight: 500;">Years Excellence</p>
+                    </div>
+                    <div>
+                        <h2 style="color: var(--brand-red); font-size: 36px;">100%</h2>
+                        <p style="font-weight: 500;">Safety Record</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="elevators">
+        <div class="section-container">
+            <h2 class="section-title">Our Elevator Systems</h2>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                <div class="card">
+                    <div class="card-placeholder">Residential Preview</div>
+                    <h4>1. Residential / Home</h4>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">Smooth, compact solutions designed for modern home interiors.</p>
+                </div>
+                <div class="card">
+                    <div class="card-placeholder">Commercial Preview</div>
+                    <h4>2. Commercial</h4>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">High-traffic smart traction elevators for malls and corporate hubs.</p>
+                </div>
+                <div class="card">
+                    <div class="card-placeholder">Industrial Preview</div>
+                    <h4>3. Industrial</h4>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">Heavy-duty freight lifts engineered for durability and raw load-bearing.</p>
+                </div>
+                <div class="card">
+                    <div class="card-placeholder">Custom Cabin Preview</div>
+                    <h4>4. Customization Cabin</h4>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">Tailored capsule glass options, gold finishes, and unique aesthetics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-gray" id="amc-safety">
+        <div class="section-container">
+            <h2 class="section-title">Safety & Maintenance</h2>
+            <div class="grid-2">
+                <div style="background: var(--pure-white); padding: 30px; border-radius: 8px; border: 1px solid var(--mid-gray);">
+                    <h3 style="color: var(--brand-red); margin-bottom: 10px;">🛡️ Smart Safety Features</h3>
+                    <p style="color: var(--text-muted);">Every lift configuration includes standard Automatic Rescue Devices (ARD), infrared curtain sensors, overload trip-switches, and automated emergency lighting networks.</p>
+                </div>
+                <div style="background: var(--pure-white); padding: 30px; border-radius: 8px; border: 1px solid var(--mid-gray);">
+                    <h3 style="color: var(--brand-red); margin-bottom: 10px;">🔧 Annual Maintenance Contracts (AMC)</h3>
+                    <p style="color: var(--text-muted);">Ensure seamless operations with 24/7 breakdown callouts, strict periodic safety checkups, and certified structural tuning conducted by veteran BG/BR engineers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="installations">
+        <div class="section-container">
+            <h2 class="section-title">Landmark BG Installations</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-placeholder">BGS Hospital Preview</div>
+                    <h4>BGS Hospital</h4>
+                    <p style="font-size: 12px; color: var(--text-muted);">Bengaluru, Karnataka</p>
+                </div>
+                <div class="card">
+                    <div class="card-placeholder">Capsule Elevator Preview</div>
+                    <h4>Capsule Atrium Lift</h4>
+                    <p style="font-size: 12px; color: var(--text-muted);">Chennai, Tamil Nadu</p>
+                </div>
+                <div class="card">
+                    <div class="card-placeholder">Luxury Tower Preview</div>
+                    <h4>Luxury Residential Tower</h4>
+                    <p style="font-size: 12px; color: var(--text-muted);">Hyderabad, Telangana</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-gray" id="quote">
+        <div class="section-container">
+            <div class="grid-2">
+                
+                <div class="form-box">
+                    <h3 style="color: var(--brand-red); margin-bottom: 5px;">Request a Quote</h3>
+                    <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Let us know your architectural project specs.</p>
+                    <form>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="John Doe" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Elevator Class Required</label>
+                            <select>
+                                <option>Residential / Home Lift</option>
+                                <option>Commercial Elevator</option>
+                                <option>Industrial / Freight Lift</option>
+                                <option>Custom Design Cabin</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Project Details</label>
+                            <textarea rows="3" placeholder="Tell us about the number of floors, location, or special requirements..."></textarea>
+                        </div>
+                        <button type="button" class="btn-primary" style="width: 100%; border: none;">Submit Quote Request</button>
+                    </form>
+                </div>
+
+                <div class="form-box" id="careers">
+                    <h3 style="color: var(--brand-red); margin-bottom: 5px;">Careers at BR</h3>
+                    <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Join a legacy of engineering excellence.</p>
+                    <form>
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" placeholder="Enter your full name" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" placeholder="name@domain.com" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Position Desired</label>
+                            <select>
+                                <option>Installation Engineer</option>
+                                <option>Maintenance Technician</option>
+                                <option>Sales Executive</option>
+                                <option>Design & Customization Specialist</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn-secondary" style="width: 100%;">Upload Resume & Apply</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4 style="color: var(--brand-red);">BR ELEVATORS</h4>
+                <p>A Unit of BG Elevators. Premium vertical transport systems delivering trusted mechanical capability and seamless engineering since 2005.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Jumps</h4>
+                <p><a href="#about" style="color: #aaa; text-decoration: none;">Our Story</a></p>
+                <p><a href="#elevators" style="color: #aaa; text-decoration: none;">Elevator Systems</a></p>
+                <p><a href="#quote" style="color: #aaa; text-decoration: none;">Get a Quote</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <p>📍 1-949/16A 1/54, Renuka Complex, 2nd Floor, GB Central Bus Stand, Gulbarga, Karnataka – 585102, India</p>
+                <p>📞 +91 98765 43210</p>
+                <p>✉️ brelevatorsbr@gmail.com</p>
+            </div>
+        </div>
+        <div style="max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid #333; text-align: center; font-size: 12px;">
+            © 2026 BR Elevators. All rights reserved. Backed by BG Elevators Core Engineering Network.
+        </div>
+    </footer>
+
+</body>
+</html>
