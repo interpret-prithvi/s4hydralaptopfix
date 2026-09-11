@@ -62,9 +62,9 @@ export default function Header() {
           aria-label="S4 hydralaptopfix — back to top"
           style={{
             display:        'flex',
-            flexDirection:  'column',
+            flexDirection:  'row',
             alignItems:     'center',
-            gap:            '4px',
+            gap:            '12px',
             flexShrink:     0,
             textDecoration: 'none',
           }}
@@ -81,14 +81,13 @@ export default function Header() {
             }}
           />
           <span
+            className="logo-title"
             style={{
               fontFamily:    'var(--font-heading)',
-              fontWeight:    'var(--weight-bold)',
-              fontSize:      '0.65rem',
-              color:         'rgba(255,255,255,0.8)',
-              letterSpacing: '0.04em',
-              textAlign:     'center',
-              lineHeight:    1,
+              fontWeight:    700,
+              color:         'rgba(255,255,255,0.9)',
+              letterSpacing: '-0.5px',
+              lineHeight:    1.2,
               whiteSpace:    'nowrap',
             }}
           >
@@ -263,9 +262,15 @@ export default function Header() {
 
       {/* ── Responsive styles ── */}
       <style>{`
+        .logo-title { font-size: 26px; }
+
+        @media (max-width: 1024px) {
+          .logo-title { font-size: 23px; }
+        }
         @media (max-width: 768px) {
-          .desktop-nav  { display: none !important; }
+          .desktop-nav   { display: none !important; }
           .hamburger-btn { display: flex !important; }
+          .logo-title    { font-size: 21px; }
         }
       `}</style>
     </header>

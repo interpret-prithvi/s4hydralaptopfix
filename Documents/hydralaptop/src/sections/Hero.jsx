@@ -144,7 +144,7 @@ export default function Hero() {
           variants={reduced ? {} : itemVariants}
           style={{
             fontFamily: 'var(--font-heading)', fontWeight: 800,
-            fontSize: 'clamp(2.2rem, 6.5vw, 5.8rem)',
+            fontSize: 'clamp(2.375rem, 6.5vw, 4.5rem)',
             lineHeight: 1.06, letterSpacing: '-0.02em',
             color: '#FFFFFF', marginBottom: '20px',
             maxWidth: '780px',
