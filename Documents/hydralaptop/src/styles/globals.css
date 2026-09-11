@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   GLOBAL DESIGN TOKENS
+   Brand values centralised as CSS custom properties.
+   These are the single source of truth for all future
+   components and sections.
+   ============================================================ */
+
+:root {
+  /* ── Colors ── */
+  --primary-blue:      #0088FF;
+  --primary-blue-dark: #0066FF;
+  --cyan:              #38BDF8;
+  --background:        #F0F7FF;
+  --heading:           #0F172A;
+  --body:              #475569;
+  --border:            rgba(0, 136, 255, 0.15);
+
+  /* ── Typography ── */
+  --font-primary: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+
+  --weight-regular:   400;
+  --weight-medium:    500;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+  --weight-extrabold: 800;
+  --weight-black:     900;
+
+  /* ── Border Radius ── */
+  --radius-pill: 9999px;
+  --radius-card: 16px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+
+  /* ── Transitions ── */
+  --transition-standard: 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-fast:     150ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-slow:     400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* ── Shadows / Glow ── */
+  --shadow-glow-sm: 0 0 16px rgba(0, 136, 255, 0.20);
+  --shadow-glow:    0 0 32px rgba(0, 136, 255, 0.28);
+  --shadow-glow-lg: 0 0 64px rgba(0, 136, 255, 0.34);
+
+  /* ── Spacing scale (reference only — use Tailwind spacing in components) ── */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  32px;
+  --space-xl:  64px;
+  --space-2xl: 128px;
+}
+
+
+/* ============================================================
+   BASE RESET + FOUNDATIONAL STYLES
+   ============================================================ */
+
+@layer base {
+
+  /* Box sizing */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* HTML */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 148px;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Body */
+  body {
+    font-family: var(--font-primary);
+    font-weight: var(--weight-regular);
+    color: var(--body);
+    background-color: #FFFFFF;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Headings — font family + rendering */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--heading);
+    line-height: 1.15;
+    font-weight: var(--weight-bold);
+  }
+
+  /* Links */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Images + video */
+  img,
+  video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Lists */
+  ul, ol {
+    list-style: none;
+  }
+
+  /* Buttons — base browser reset only */
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+  }
+
+  /* Input baseline */
+  input,
+  textarea,
+  select {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  /* Focus visible — accessibility baseline */
+  :focus-visible {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 3px;
+  }
+
+  /* Reduced motion — respect user preference */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+}
+
+/* ============================================================
+   PHASE 10 — POLISH ADDITIONS
+   ============================================================ */
+
+/* Ensure all section anchors clear the fixed header */
+section[id] {
+  scroll-margin-top: 148px;
+}
+
+/* Prevent horizontal overflow globally */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Consistent focus ring for all interactive elements */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Smooth image rendering */
+img {
+  image-rendering: auto;
+}
+
+/* Selection colour */
+::selection {
+  background: rgba(0, 136, 255, 0.18);
+  color: var(--heading);
+}
+
+/* ============================================================
+   PHASE 11 — RESPONSIVE OVERRIDES
+   ============================================================ */
+
+/* Prevent any single element from causing horizontal overflow */
+* { max-width: 100%; }
+img, video { max-width: 100%; }
+
+/* Header wordmark — shrink on very small screens */
+@media (max-width: 380px) {
+  .header-wordmark { font-size: 0.92rem !important; }
+}
+
+/* Carousel full-width breakout — ensure no bleed on mobile */
+@media (max-width: 640px) {
+  .carousel-strip {
+    animation-duration: 18s !important; /* slightly faster on mobile so images don't feel stuck */
+  }
+}
+
+/* Footer grid — single column on small mobile */
+@media (max-width: 400px) {
+  .footer-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Trust grid — single column on small mobile */
+@media (max-width: 400px) {
+  .trust-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Service rows — single column on small mobile */
+@media (max-width: 400px) {
+  .services-row-3,
+  .services-row-2 { grid-template-columns: 1fr !important; }
+  .services-row-2 { max-width: 100% !important; }
+}
+
+/* Prevent long words from overflowing on mobile */
+h1, h2, h3, h4, h5, h6, p {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
